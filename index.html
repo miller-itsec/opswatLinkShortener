@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OPSWAT Link Shortener</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .fade-in { animation: fadeIn 0.5s ease-in-out; }
+    @keyframes fadeIn { from {opacity: 0; transform: translateY(-10px);} to {opacity: 1; transform: translateY(0);} }
+    #loader { border: 4px solid #4a5568; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg);} }
+  </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen text-white">
+<div class="flex flex-col items-center">
+  <!-- Main App Container (initially hidden) -->
+  <div id="app-container" class="w-full max-w-lg hidden">
+    <!-- Logged-in view -->
+    <div id="shortener-view" class="p-8 space-y-8 bg-slate-800/60 rounded-2xl shadow-2xl border border-blue-500/30 border-t-4 border-blue-500 hidden">
+        <div class="flex justify-between items-center">
+            <svg class="h-10" width="463" height="73" viewBox="0 0 463 73" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6838_179690)"><path d="M35.84 0.22998C27.14 0.22998 19.39 3.15998 13.73 7.98998V17.63C18.55 12.39 26.41 7.77998 35.95 7.77998C51.46 7.77998 63.41 19.94 63.41 36.29V58.82C68.55 53.37 71.8 45.51 71.8 36.29C71.79 15.53 55.76 0.22998 35.84 0.22998Z" fill="white"></path><path d="M8.49 35.66V13.12C3.35 18.57 0 26.43 0 35.66C0 56.41 16.04 71.71 35.95 71.71C44.65 71.71 52.4 68.78 58.17 63.95V54.31C53.24 59.55 45.28 64.16 35.85 64.16C20.34 64.16 8.49 51.9 8.49 35.65V35.66Z" fill="white"></path><path d="M119.66 1.37997H95.34V70.55H103.52V8.50997H119.56C128.68 8.50997 133.4 14.17 133.4 21.51C133.4 28.85 128.68 34.4 119.56 34.4H108.66V41.53H119.66C133.29 41.53 141.77 33.14 141.77 21.41C141.77 9.67998 133.29 1.37997 119.66 1.37997Z" fill="white"></path><path d="M200.37 16.48L206.35 11.97C202.16 5.25998 194.19 0.22998 184.97 0.22998C182.24 0.22998 179.73 0.64998 177.42 1.37998V9.13998C179.73 8.19998 182.45 7.77998 184.76 7.77998C191.05 7.77998 196.71 10.92 200.38 16.48H200.37Z" fill="white"></path><path d="M191.04 33.14L183.39 29.47C177.1 26.43 172.28 24.13 172.28 16.79V3.78998C167.25 6.82998 163.79 11.86 163.79 18.36C163.79 28.11 171.34 32.93 179.41 36.81L187.17 40.48C193.98 43.73 198.7 46.24 198.7 53.69V67.84C203.94 64.49 207.19 59.25 207.19 52.43C207.19 43.1 201.22 37.97 191.05 33.15L191.04 33.14Z" fill="white"></path><path d="M165.47 52.32L159.39 56.83C164.73 65.95 173.96 71.71 184.65 71.71C187.9 71.71 190.83 71.18 193.56 70.24V62.59C190.83 63.53 187.69 64.16 184.76 64.16C175.85 64.16 169.67 58.71 165.48 52.32H165.47Z" fill="white"></path><path d="M223.13 1.37997L249.44 71.71H252.37L255.3 64.58L232.14 1.37997H223.13Z" fill="white"></path><path d="M299.95 46.87L304.35 57.67L325.32 1.37997H316.41L299.95 46.87Z" fill="white"></path><path d="M272.81 0.22998L254.26 46.66L258.13 57.35L274.27 16.89L296.18 71.71H299.22L301.63 65L275.74 0.22998H272.81Z" fill="white"></path><path d="M350.28 49.75L361.28 24.18L356.99 14.01L332.67 71.13H341.26L347.13 57.09H375.43L372.29 49.75H350.28Z" fill="white"></path><path d="M362.64 0.809982L359.71 7.40998L386.96 71.13H395.66L365.69 0.809982H362.64Z" fill="white"></path><path d="M456.87 1.37997H399.96V8.71997H456.87V1.37997Z" fill="white"></path><path d="M432.45 13.85H424.27V70.55H432.45V13.85Z" fill="white"></path><path d="M456.96 61.2C454 61.2 451.55 63.67 451.55 66.72C451.55 69.77 454 72.22 456.96 72.22C459.92 72.22 462.33 69.75 462.33 66.72C462.33 63.69 459.93 61.2 456.96 61.2Z" fill="white"></path></g><defs><clipPath id="clip0_6838_179690"><rect width="462.33" height="72" fill="white" transform="translate(0 0.22998)"></rect></clipPath></defs></svg>
+            <button id="logoutButton" class="px-3 py-1 text-sm font-medium text-gray-300 bg-slate-700 rounded-md hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 focus:ring-offset-slate-800">Logout</button>
+        </div>
+        <div class="text-center">
+            <h1 class="mt-4 text-3xl font-bold text-gray-100">Link Shortener</h1>
+            <p class="mt-2 text-gray-400">Paste a link from an approved domain to generate a shortlink.</p>
+        </div>
+        <form id="shortenForm" class="mt-8 space-y-6">
+            <div>
+                <label for="urlInput" class="sr-only">URL</label>
+                <input id="urlInput" name="url" type="url" required class="relative block w-full px-4 py-3 text-white placeholder-gray-400 bg-slate-700 border border-slate-600 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="e.g., https://filescan.io/..." />
+            </div>
+            <button type="submit" id="submitButton" class="group relative flex justify-center w-full px-4 py-3 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform duration-200 hover:scale-105">
+                Generate Shortlink
+            </button>
+        </form>
+        <div id="result" class="mt-6"></div>
+    </div>
+
+    <!-- Login view -->
+    <div id="login-view" class="p-8 space-y-8 bg-slate-800/60 rounded-2xl shadow-2xl border border-blue-500/30 hidden">
+        <div class="text-center">
+            <svg class="mx-auto h-12 mb-6" width="463" height="73" viewBox="0 0 463 73" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6838_179690)"><path d="M35.84 0.22998C27.14 0.22998 19.39 3.15998 13.73 7.98998V17.63C18.55 12.39 26.41 7.77998 35.95 7.77998C51.46 7.77998 63.41 19.94 63.41 36.29V58.82C68.55 53.37 71.8 45.51 71.8 36.29C71.79 15.53 55.76 0.22998 35.84 0.22998Z" fill="white"></path><path d="M8.49 35.66V13.12C3.35 18.57 0 26.43 0 35.66C0 56.41 16.04 71.71 35.95 71.71C44.65 71.71 52.4 68.78 58.17 63.95V54.31C53.24 59.55 45.28 64.16 35.85 64.16C20.34 64.16 8.49 51.9 8.49 35.65V35.66Z" fill="white"></path><path d="M119.66 1.37997H95.34V70.55H103.52V8.50997H119.56C128.68 8.50997 133.4 14.17 133.4 21.51C133.4 28.85 128.68 34.4 119.56 34.4H108.66V41.53H119.66C133.29 41.53 141.77 33.14 141.77 21.41C141.77 9.67998 133.29 1.37997 119.66 1.37997Z" fill="white"></path><path d="M200.37 16.48L206.35 11.97C202.16 5.25998 194.19 0.22998 184.97 0.22998C182.24 0.22998 179.73 0.64998 177.42 1.37998V9.13998C179.73 8.19998 182.45 7.77998 184.76 7.77998C191.05 7.77998 196.71 10.92 200.38 16.48H200.37Z" fill="white"></path><path d="M191.04 33.14L183.39 29.47C177.1 26.43 172.28 24.13 172.28 16.79V3.78998C167.25 6.82998 163.79 11.86 163.79 18.36C163.79 28.11 171.34 32.93 179.41 36.81L187.17 40.48C193.98 43.73 198.7 46.24 198.7 53.69V67.84C203.94 64.49 207.19 59.25 207.19 52.43C207.19 43.1 201.22 37.97 191.05 33.15L191.04 33.14Z" fill="white"></path><path d="M165.47 52.32L159.39 56.83C164.73 65.95 173.96 71.71 184.65 71.71C187.9 71.71 190.83 71.18 193.56 70.24V62.59C190.83 63.53 187.69 64.16 184.76 64.16C175.85 64.16 169.67 58.71 165.48 52.32H165.47Z" fill="white"></path><path d="M223.13 1.37997L249.44 71.71H252.37L255.3 64.58L232.14 1.37997H223.13Z" fill="white"></path><path d="M299.95 46.87L304.35 57.67L325.32 1.37997H316.41L299.95 46.87Z" fill="white"></path><path d="M272.81 0.22998L254.26 46.66L258.13 57.35L274.27 16.89L296.18 71.71H299.22L301.63 65L275.74 0.22998H272.81Z" fill="white"></path><path d="M350.28 49.75L361.28 24.18L356.99 14.01L332.67 71.13H341.26L347.13 57.09H375.43L372.29 49.75H350.28Z" fill="white"></path><path d="M362.64 0.809982L359.71 7.40998L386.96 71.13H395.66L365.69 0.809982H362.64Z" fill="white"></path><path d="M456.87 1.37997H399.96V8.71997H456.87V1.37997Z" fill="white"></path><path d="M432.45 13.85H424.27V70.55H432.45V13.85Z" fill="white"></path><path d="M456.96 61.2C454 61.2 451.55 63.67 451.55 66.72C451.55 69.77 454 72.22 456.96 72.22C459.92 72.22 462.33 69.75 462.33 66.72C462.33 63.69 459.93 61.2 456.96 61.2Z" fill="white"></path></g><defs><clipPath id="clip0_6838_179690"><rect width="462.33" height="72" fill="white" transform="translate(0 0.22998)"></rect></clipPath></defs></svg>
+            <h2 class="mt-4 text-xl font-bold text-gray-100">Admin Login</h2>
+            <p class="mt-1 text-gray-400">Please sign in to create shortlinks.</p>
+        </div>
+        <div class="mt-8">
+            <button id="googleSignInButton" class="w-full inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-white bg-slate-700 border border-slate-600 rounded-md hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 focus:ring-offset-slate-800">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.519-3.486-11.187-8.166l-6.571,4.819C9.656,39.663,16.318,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C39.901,36.626,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
+                Sign in with Google
+            </button>
+        </div>
+        <div id="login-result" class="mt-6"></div>
+    </div>
+  </div>
+
+  <!-- Footer (initially hidden) -->
+  <footer id="app-footer" class="w-full max-w-lg text-center py-4 text-xs text-slate-500 hidden">
+      <p>
+        Copyright &copy; <span id="year"></span> OPSWAT. All Rights Reserved. | Version 1.1.0
+      </p>
+      <p class="mt-1">
+        Powered by <a href="https://filescan.io" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 underline">FileScan.IO</a>
+      </p>
+  </footer>
+
+  <!-- Initial loader -->
+  <div id="redirect-checker">
+    <div id="loader"></div>
+    <p class="text-gray-400 text-center">Loading...</p>
+  </div>
+  
+  <!-- Add your Firebase config object here -->
+  <script>
+    // This is the real Firebase config for the opswat-link-shortener project
+    window.__firebase_config = {
+      apiKey: "APIKEY",
+      authDomain: "opswat-link-shortener.firebaseapp.com",
+      projectId: "opswat-link-shortener",
+      storageBucket: "opswat-link-shortener.appspot.com",
+      messagingSenderId: "MID",
+      appId: "1:MID:web:WID",
+      measurementId: "G-ANALYTICSID"
+    };
+    window.__app_id = 'opswat-link-shortener';
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // --- DOM Elements ---
+    const appContainer = document.getElementById('app-container');
+    const redirectChecker = document.getElementById('redirect-checker');
+    const loginView = document.getElementById('login-view');
+    const shortenerView = document.getElementById('shortener-view');
+    
+    // --- Config ---
+    const firebaseConfig = window.__firebase_config || {};
+    const rawAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-shortlink-app';
+    const appId = String(rawAppId).replace(/[^a-zA-Z0-9_-]/g, '_');
+    
+    let app, auth, db;
+    let userId = null;
+
+    function showView(view) {
+        redirectChecker.style.display = 'none';
+        appContainer.classList.remove('hidden');
+        document.getElementById('app-footer').classList.remove('hidden'); // Show footer
+        loginView.classList.add('hidden');
+        shortenerView.classList.add('hidden');
+        
+        if(view === 'login') {
+            loginView.classList.remove('hidden');
+        } else if (view === 'shortener') {
+            shortenerView.classList.remove('hidden');
+        }
+    }
+
+    function main() {
+      document.getElementById('year').textContent = new Date().getFullYear(); // Set current year in footer
+      try {
+        if (!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith("AIzaSyA")) { 
+             throw new Error("Firebase config is missing or a placeholder.");
+        }
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+      } catch (e) {
+        console.error('Firebase initialization failed:', e);
+        redirectChecker.innerHTML = `<p class="text-red-400">Error: Could not connect to backend. Please ensure Firebase configuration is correct.</p>`
+        return;
+      }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          userId = user.uid;
+          const adminRef = doc(db, 'admins', userId);
+          const adminSnap = await getDoc(adminRef);
+
+          if (adminSnap.exists()) {
+            await handleRouting();
+          } else {
+            await signOut(auth);
+            showView('login');
+            displayLoginMessage('error', 'You are not authorized to use this application.');
+          }
+        } else {
+          await handleRouting(true); // check for redirect only
+        }
+      });
+    }
+
+    async function handleRouting(redirectOnly = false) {
+      if (window.location.protocol === 'file:') {
+        if (!redirectOnly) showView(auth.currentUser ? 'shortener' : 'login');
+        return;
+      }
+      
+      const path = window.location.pathname.replace(/^\//, '');
+
+      if (path && path !== 'index.html') {
+        const linksCol = collection(db, 'artifacts', appId, 'public', 'data', 'links');
+        const docRef = doc(linksCol, path);
+
+        try {
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            window.location.replace(docSnap.data().longUrl);
+          } else {
+            showView(auth.currentUser ? 'shortener' : 'login');
+            if (auth.currentUser) {
+                 displayMessage('error', 'Shortlink not found.');
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching link:', error);
+          showView(auth.currentUser ? 'shortener' : 'login');
+          if(auth.currentUser){
+              displayMessage('error', 'Could not retrieve the link.');
+          }
+        }
+      } else {
+         showView(auth.currentUser ? 'shortener' : 'login');
+      }
+    }
+
+    // --- Login/Logout Logic ---
+    const googleSignInButton = document.getElementById('googleSignInButton');
+    const logoutButton = document.getElementById('logoutButton');
+
+    googleSignInButton.addEventListener('click', async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            await signInWithPopup(auth, provider);
+            // onAuthStateChanged will handle the rest after successful login
+        } catch (error) {
+            console.error("Google Sign-In failed:", error);
+            displayLoginMessage('error', 'Google Sign-In failed. Please try again.');
+        }
+    });
+
+    logoutButton.addEventListener('click', async () => {
+        await signOut(auth);
+        showView('login');
+    });
+
+    function displayLoginMessage(type, message) {
+        const resultDiv = document.getElementById('login-result');
+        const color = type === 'error' ? 'red' : 'green';
+        resultDiv.innerHTML = `<div class="p-3 text-sm text-${color}-300 bg-${color}-900/50 border border-${color}-500/50 rounded-md">${message}</div>`;
+    }
+
+    // --- Shortener Logic ---
+    const shortenForm = document.getElementById('shortenForm');
+    shortenForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const urlInput = document.getElementById('urlInput');
+      const longUrl = urlInput.value.trim();
+      const resultDiv = document.getElementById('result');
+      const submitButton = document.getElementById('submitButton');
+
+      resultDiv.innerHTML = '';
+      submitButton.disabled = true;
+      submitButton.textContent = 'Generating...';
+
+      if (!isAllowedUrl(longUrl)) {
+        displayMessage('error', 'Invalid URL. Only filescan.io, opswat.com, and metadefender.com links are allowed.');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Generate Shortlink';
+        return;
+      }
+
+      try {
+        const shortCode = await getAvailableShortCode();
+        const linksCol = collection(db, 'artifacts', appId, 'public', 'data', 'links');
+        const docRef = doc(linksCol, shortCode);
+
+        await setDoc(docRef, { longUrl, createdAt: serverTimestamp(), createdBy: userId });
+        const shortUrl = `${window.location.origin}/${shortCode}`;
+        displayShortlink(shortUrl);
+      } catch (error) {
+        console.error('Error saving link:', error);
+        displayMessage('error', 'Could not save the link. The server rejected the request.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Generate Shortlink';
+        urlInput.value = '';
+      }
+    });
+    
+    // --- Helper Functions ---
+    function isAllowedUrl(url) {
+        try {
+            const parsed = new URL(url);
+            const allowedHosts = new Set(['filescan.io','www.filescan.io','opswat.com','www.opswat.com','metadefender.com','www.metadefender.com']);
+            return parsed.protocol === 'https:' && allowedHosts.has(parsed.hostname);
+        } catch (_) { return false; }
+    }
+    function generateShortCode(length = 7) {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123_';
+        let out = '';
+        for (let i = 0; i < length; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
+        return out;
+    }
+    async function getAvailableShortCode(retries = 5) {
+        const linksCol = collection(db, 'artifacts', appId, 'public', 'data', 'links');
+        for (let i = 0; i < retries; i++) {
+            const candidate = generateShortCode();
+            const ref = doc(linksCol, candidate);
+            const snap = await getDoc(ref);
+            if (!snap.exists()) return candidate;
+        }
+        throw new Error('Could not allocate a unique short code.');
+    }
+    function displayMessage(type, message) {
+        const resultDiv = document.getElementById('result');
+        const color = type === 'error' ? 'red' : 'green';
+        resultDiv.innerHTML = `<div class="p-4 text-sm text-${color}-300 bg-${color}-900/50 border border-${color}-500/50 rounded-lg fade-in" role="alert">${message}</div>`;
+    }
+    function displayShortlink(shortUrl) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `<div class="p-4 bg-slate-700 border border-slate-600 rounded-lg fade-in"><p class="text-sm text-gray-300 mb-2">Your shortlink is ready:</p><div class="flex items-center space-x-2"><input id="shortUrlInput" readonly value="${shortUrl}" class="flex-grow p-2 text-white bg-slate-600 border border-slate-500 rounded-md sm:text-sm focus:outline-none" /><button id="copyButton" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-500">Copy</button></div></div>`;
+      document.getElementById('copyButton').addEventListener('click', async () => {
+        await navigator.clipboard.writeText(shortUrl);
+        const btn = document.getElementById('copyButton');
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    main(); // Start the application
+  </script>
+</body>
+</html>
+
